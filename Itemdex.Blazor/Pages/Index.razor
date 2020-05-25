@@ -22,14 +22,26 @@ else if (_itemdex.NoProgress)
 else
 {
     <p>Complete: @_progressReport.Complete.Count</p>
-    <ul>
+    <div class="item-grid">
         @foreach (var item in _progressReport.Complete)
         {
-            <li>@item.TextId</li>
+            <div class="grid-cell"><img src="https://minio.acpostermaker.com/terraria/Item_@(item.Id).png"></div>
+        }
+    </div>
+    <p>Incomplete: @_progressReport.Incomplete.Count</p>
+    <ul>
+        @foreach (var item in _progressReport.Incomplete)
+        {
+            <li>@item.TextId - @item.ResearchProgress/@item.ResearchRequired</li>
         }
     </ul>
-    <p>Incomplete: @_progressReport.Incomplete.Count</p>
     <p>Not Started: @_progressReport.NotStarted.Count</p>
+    <ul>
+        @foreach (var item in _progressReport.NotStarted)
+        {
+            <li>@item.TextId - @item.ResearchProgress/@item.ResearchRequired</li>
+        }
+    </ul>
 }
 
 @code {
