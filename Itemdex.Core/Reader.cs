@@ -10,16 +10,16 @@ namespace Itemdex.Core
         private static readonly byte[] EncryptionKey = new UnicodeEncoding().GetBytes("h3y_gUyZ");
         private const int PlayerFileType = 3;
 
-        public static void ExtractJourneyModeProgressFromFile(string playerPath, Itemdex itemdex)
+        public static void ExtractJourneyModeProgressFromFile(MemoryStream ms, Itemdex itemdex)
         {
             var player = new Player();
 
             try
             {
                 var rijndaelManaged = new RijndaelManaged {Padding = PaddingMode.None};
-
-                using var memoryStream = new MemoryStream(File.ReadAllBytes(playerPath));
-                using var cryptoStream = new CryptoStream(memoryStream,
+                
+                ms.Position = 0;
+                using var cryptoStream = new CryptoStream(ms,
                     rijndaelManaged.CreateDecryptor(EncryptionKey, EncryptionKey),
                     CryptoStreamMode.Read);
                 using var binaryReader = new BinaryReader(cryptoStream);

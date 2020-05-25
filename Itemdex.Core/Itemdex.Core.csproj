@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>journey_mode_progress</RootNamespace>
+    <RootNamespace>Itemdex.Core</RootNamespace>
   </PropertyGroup>
 
 </Project>

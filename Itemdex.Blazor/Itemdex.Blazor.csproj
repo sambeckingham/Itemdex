@@ -8,4 +8,12 @@
     <PackageReference Include="BlazorInputFile" Version="0.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Itemdex.Core\Itemdex.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="itemlist.json" />
+  </ItemGroup>
+
 </Project>

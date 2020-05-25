@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Itemdex.Core
 {
@@ -33,8 +32,6 @@ namespace Itemdex.Core
             {
                 var itemTextId = reader.ReadString();
                 var progressCount = reader.ReadInt32();
-                Console.WriteLine($"Item ID: {itemTextId}, Count: {progressCount}");
-
                 ItemsByTextId[itemTextId].ResearchProgress = progressCount;
             }
         }

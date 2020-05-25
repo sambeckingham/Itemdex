@@ -1,27 +1,57 @@
 ﻿@page "/"
 @using System.IO
 @using BlazorInputFile
+@using Itemdex.Core
 
-<h1>Single file</h1>
+@if (!uploaded)
+{
+    <h1>Single file</h1>
 
-<p>A single file input that uploads automatically on file selection</p>
+    <p>A single file input that uploads automatically on file selection</p>
 
-<InputFile OnChange="HandleSelection" />
-
-<p>@status</p>
+    <InputFile OnChange="HandleSelection"/>
+}
+else if (_itemdex.SaveVersion < 218)
+{
+    <p>Looks like this save is from version @_itemdex.SaveVersion, Itemdex only works with version 218 and above!</p>
+}
+else if (_itemdex.NoProgress)
+{
+    <p>"No progress has been made! (Is @_itemdex.CharacterName even a journey mode character?)"!</p>
+}
+else
+{
+    <p>Complete: @_progressReport.Complete.Count</p>
+    <ul>
+        @foreach (var item in _progressReport.Complete)
+        {
+            <li>@item.TextId</li>
+        }
+    </ul>
+    <p>Incomplete: @_progressReport.Incomplete.Count</p>
+    <p>Not Started: @_progressReport.NotStarted.Count</p>
+}
 
 @code {
     string status;
+    bool uploaded;
+    ProgressReport _progressReport;
+    Itemdex _itemdex;
 
     async Task HandleSelection(IFileListEntry[] files)
     {
         var file = files.FirstOrDefault();
         if (file != null)
         {
-            var ms = new MemoryStream();
+            await using var ms = new MemoryStream();
             await file.Data.CopyToAsync(ms);
 
-            status = $"Finished loading {file.Size} bytes from {file.Name}";
+            _itemdex = new Itemdex();
+            Reader.ExtractJourneyModeProgressFromFile(ms, _itemdex);
+
+            _progressReport = _itemdex.Evaluate();
+            uploaded = true;
         }
     }
+
 }
