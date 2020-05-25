@@ -1,0 +1,27 @@
+﻿@page "/"
+@using System.IO
+@using BlazorInputFile
+
+<h1>Single file</h1>
+
+<p>A single file input that uploads automatically on file selection</p>
+
+<InputFile OnChange="HandleSelection" />
+
+<p>@status</p>
+
+@code {
+    string status;
+
+    async Task HandleSelection(IFileListEntry[] files)
+    {
+        var file = files.FirstOrDefault();
+        if (file != null)
+        {
+            var ms = new MemoryStream();
+            await file.Data.CopyToAsync(ms);
+
+            status = $"Finished loading {file.Size} bytes from {file.Name}";
+        }
+    }
+}
