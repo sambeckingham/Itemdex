@@ -3,11 +3,13 @@
 @using BlazorInputFile
 @using Itemdex.Core
 
+<header>
+    <h1 class="logo stroke--2px">Terraria Itemdex</h1>
+</header>
+
 @if (!uploaded)
 {
-    <h1>Single file</h1>
-
-    <p>A single file input that uploads automatically on file selection</p>
+    <p class="stroke--1px">Upload your Terraria Player file (*.plr) to see how far you've come!</p>
 
     <InputFile OnChange="HandleSelection"/>
 }
@@ -21,27 +23,39 @@ else if (_itemdex.NoProgress)
 }
 else
 {
-    <p>Complete: @_progressReport.Complete.Count</p>
-    <div class="item-grid">
-        @foreach (var item in _progressReport.Complete)
-        {
-            <div class="grid-cell"><img src="https://minio.acpostermaker.com/terraria/Item_@(item.Id).png"></div>
-        }
+    <div class="report-section">
+        <p>Complete: @_progressReport.Complete.Count</p>
+        <div class="item-grid">
+            @foreach (var item in _progressReport.Complete)
+            {
+                <div class="grid-cell--complete">
+                    <img src="https://minio.acpostermaker.com/terraria/Item_@(item.Id).png">
+                </div>
+            }
+        </div>
     </div>
-    <p>Incomplete: @_progressReport.Incomplete.Count</p>
-    <ul>
-        @foreach (var item in _progressReport.Incomplete)
-        {
-            <li>@item.TextId - @item.ResearchProgress/@item.ResearchRequired</li>
-        }
-    </ul>
-    <p>Not Started: @_progressReport.NotStarted.Count</p>
-    <ul>
-        @foreach (var item in _progressReport.NotStarted)
-        {
-            <li>@item.TextId - @item.ResearchProgress/@item.ResearchRequired</li>
-        }
-    </ul>
+    <div class="report-section">
+        <p>Incomplete: @_progressReport.Incomplete.Count</p>
+        <div class="item-grid">
+            @foreach (var item in _progressReport.Incomplete)
+            {
+                <div class="grid-cell--incomplete">
+                    <img src="https://minio.acpostermaker.com/terraria/Item_@(item.Id).png">
+                </div>
+            }
+        </div>
+    </div>
+    <div class="report-section">
+        <p>Not Started: @_progressReport.NotStarted.Count</p>
+        <div class="item-grid">
+            @foreach (var item in _progressReport.NotStarted)
+            {
+                <div class="grid-cell--not-started">
+                    <img src="https://minio.acpostermaker.com/terraria/Item_@(item.Id).png">
+                </div>
+            }
+        </div>
+    </div>
 }
 
 @code {
