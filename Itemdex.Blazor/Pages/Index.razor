@@ -23,10 +23,10 @@ else if (_itemdexService.NoProgress)
 }
 else
 {
-    <p>Progress: @PercentComplete() </p>
-    <ReportSection Items=@_progressReport.Complete SectionName="complete" />
-    <ReportSection Items=@_progressReport.Incomplete SectionName="incomplete" />
-    <ReportSection Items=@_progressReport.NotStarted SectionName="not-started" />
+    <p>Your itemdex is @PercentComplete() complete!</p>
+    <ReportSection Items=@_progressReport.Complete SectionName="Complete" />
+    <ReportSection Items=@_progressReport.Incomplete SectionName="Incomplete" />
+    <ReportSection Items=@_progressReport.NotStarted SectionName="Not Started" />
 }
 
 @code {

@@ -1,23 +1,16 @@
 ﻿@using Itemdex.Core
 
 <div class="report-section">
-    <p>Complete: @Items.Count</p>
-    @if (_sectionIsExpanded)
-    {
-        <button @onclick="ToggleSection">Hide Items</button>
-        <div class="item-grid">
-            @foreach (var item in Items)
-            {
-                <div class=@GridCellClass>
-                    <img src="https://minio.acpostermaker.com/terraria/Item_@(item.Id).png">
-                </div>
-            }
-        </div>
-    }
-    else
-    {
-        <button @onclick="ToggleSection">Show Items</button>
-    }
+    <p>@Items.Count @SectionName</p>
+    <button @onclick="ToggleSection">@ToggleButtonText</button>
+    <div class="item-grid" style="@VisibilityStyle">
+        @foreach (var item in Items)
+        {
+            <div class=@GridCellClass>
+                <img src="https://minio.acpostermaker.com/terraria/Item_@(item.Id).png">
+            </div>
+        }
+    </div>
 </div>
 
 @code {
@@ -29,11 +22,16 @@
     public string SectionName { get; set; }
 
     bool _sectionIsExpanded;
+    
+    string ToggleButtonText => _sectionIsExpanded ? "Hide Items" : "Show Items";
 
-    string GridCellClass => "grid-cell--" + SectionName.ToLower();
+    string VisibilityStyle => _sectionIsExpanded ? "display: grid" : "display: none";
 
+    string GridCellClass => "grid-cell--" + SectionName.ToLower().Replace(' ', '-');
+    
     public void ToggleSection()
     {
         _sectionIsExpanded = !_sectionIsExpanded;
     }
+
 }
