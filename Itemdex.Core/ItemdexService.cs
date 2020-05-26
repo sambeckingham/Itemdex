@@ -1,19 +1,18 @@
-﻿﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 
 namespace Itemdex.Core
 {
-    public class Itemdex
+    public class ItemdexService
     {
         public Dictionary<string, Item> ItemsByTextId;
         public string CharacterName;
         public int SaveVersion;
         public bool NoProgress;
 
-        public Itemdex()
+        public ItemdexService()
         {
             ItemsByTextId = LoadItemList();
             NoProgress = false;

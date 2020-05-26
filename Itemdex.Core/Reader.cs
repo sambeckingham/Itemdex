@@ -10,7 +10,7 @@ namespace Itemdex.Core
         private static readonly byte[] EncryptionKey = new UnicodeEncoding().GetBytes("h3y_gUyZ");
         private const int PlayerFileType = 3;
 
-        public static void ExtractJourneyModeProgressFromFile(MemoryStream ms, Itemdex itemdex)
+        public static void ExtractJourneyModeProgressFromFile(MemoryStream ms, ItemdexService itemdexService)
         {
             var player = new Player();
 
@@ -24,19 +24,19 @@ namespace Itemdex.Core
                     CryptoStreamMode.Read);
                 using var binaryReader = new BinaryReader(cryptoStream);
 
-                itemdex.SaveVersion = binaryReader.ReadInt32();
+                itemdexService.SaveVersion = binaryReader.ReadInt32();
 
                 ReadHeader(binaryReader);
 
-                itemdex.CharacterName = binaryReader.ReadString();
-                if (itemdex.SaveVersion < 218)
+                itemdexService.CharacterName = binaryReader.ReadString();
+                if (itemdexService.SaveVersion < 218)
                 {
                     return;
                 }
 
                 ReadUselessValues(binaryReader, player);
                 
-                itemdex.LoadProgress(binaryReader);
+                itemdexService.LoadProgress(binaryReader);
             }
             catch (Exception ex)
             {

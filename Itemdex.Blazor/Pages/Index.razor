@@ -13,56 +13,26 @@
 
     <InputFile OnChange="HandleSelection"/>
 }
-else if (_itemdex.SaveVersion < 218)
+else if (_itemdexService.SaveVersion < 218)
 {
-    <p>Looks like this save is from version @_itemdex.SaveVersion, Itemdex only works with version 218 and above!</p>
+    <p>Looks like this save is from version @_itemdexService.SaveVersion, Itemdex only works with version 218 and above!</p>
 }
-else if (_itemdex.NoProgress)
+else if (_itemdexService.NoProgress)
 {
-    <p>"No progress has been made! (Is @_itemdex.CharacterName even a journey mode character?)"!</p>
+    <p>"No progress has been made! (Is @_itemdexService.CharacterName even a journey mode character?)"!</p>
 }
 else
 {
-    <div class="report-section">
-        <p>Complete: @_progressReport.Complete.Count</p>
-        <div class="item-grid">
-            @foreach (var item in _progressReport.Complete)
-            {
-                <div class="grid-cell--complete">
-                    <img src="https://minio.acpostermaker.com/terraria/Item_@(item.Id).png">
-                </div>
-            }
-        </div>
-    </div>
-    <div class="report-section">
-        <p>Incomplete: @_progressReport.Incomplete.Count</p>
-        <div class="item-grid">
-            @foreach (var item in _progressReport.Incomplete)
-            {
-                <div class="grid-cell--incomplete">
-                    <img src="https://minio.acpostermaker.com/terraria/Item_@(item.Id).png">
-                </div>
-            }
-        </div>
-    </div>
-    <div class="report-section">
-        <p>Not Started: @_progressReport.NotStarted.Count</p>
-        <div class="item-grid">
-            @foreach (var item in _progressReport.NotStarted)
-            {
-                <div class="grid-cell--not-started">
-                    <img src="https://minio.acpostermaker.com/terraria/Item_@(item.Id).png">
-                </div>
-            }
-        </div>
-    </div>
+    <p>Progress: @PercentComplete() </p>
+    <ReportSection Items=@_progressReport.Complete SectionName="complete" />
+    <ReportSection Items=@_progressReport.Incomplete SectionName="incomplete" />
+    <ReportSection Items=@_progressReport.NotStarted SectionName="not-started" />
 }
 
 @code {
-    string status;
     bool uploaded;
     ProgressReport _progressReport;
-    Itemdex _itemdex;
+    ItemdexService _itemdexService;
 
     async Task HandleSelection(IFileListEntry[] files)
     {
@@ -72,12 +42,20 @@ else
             await using var ms = new MemoryStream();
             await file.Data.CopyToAsync(ms);
 
-            _itemdex = new Itemdex();
-            Reader.ExtractJourneyModeProgressFromFile(ms, _itemdex);
+            _itemdexService = new ItemdexService();
+            Reader.ExtractJourneyModeProgressFromFile(ms, _itemdexService);
 
-            _progressReport = _itemdex.Evaluate();
+            _progressReport = _itemdexService.Evaluate();
             uploaded = true;
         }
+    }
+
+    private string PercentComplete()
+    {
+        var done = _progressReport.Complete.Count + _progressReport.Incomplete.Count;
+        var total = _progressReport.Complete.Count + _progressReport.Incomplete.Count + _progressReport.NotStarted.Count;
+
+        return $"{(double)done / total:0.0%}";
     }
 
 }
