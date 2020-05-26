@@ -25,6 +25,9 @@
     <Content Update="Components\ReportSection.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
+    <Content Update="Components\GithubCorner.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

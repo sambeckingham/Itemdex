@@ -5,6 +5,7 @@
 
 <header>
     <h1 class="logo stroke--2px">Terraria Itemdex</h1>
+    <h3 class="stroke--1px">Made with ❤ by <a href="https://twitter.com/SamboBeckingham">@@SamboBeckingham</a></h3>
 </header>
 
 @if (!uploaded)
@@ -24,9 +25,9 @@ else if (_itemdexService.NoProgress)
 else
 {
     <p>Your itemdex is @PercentComplete() complete!</p>
-    <ReportSection Items=@_progressReport.Complete SectionName="Complete" />
-    <ReportSection Items=@_progressReport.Incomplete SectionName="Incomplete" />
-    <ReportSection Items=@_progressReport.NotStarted SectionName="Not Started" />
+    <ReportSection Items=@_progressReport.Complete SectionName="Complete"/>
+    <ReportSection Items=@_progressReport.Incomplete SectionName="Incomplete"/>
+    <ReportSection Items=@_progressReport.NotStarted SectionName="Not Started"/>
 }
 
 @code {
@@ -55,7 +56,7 @@ else
         var done = _progressReport.Complete.Count + _progressReport.Incomplete.Count;
         var total = _progressReport.Complete.Count + _progressReport.Incomplete.Count + _progressReport.NotStarted.Count;
 
-        return $"{(double)done / total:0.0%}";
+        return $"{(double) done / total:0.0%}";
     }
 
 }

@@ -1,8 +1,7 @@
 ﻿@using Itemdex.Core
 
 <div class="report-section">
-    <p>@Items.Count @SectionName</p>
-    <button @onclick="ToggleSection">@ToggleButtonText</button>
+    <p>@Items.Count @SectionName <span @onclick="ToggleSection" class="toggle stroke--1px">@ToggleButtonText</span></p>
     <div class="item-grid" style="@VisibilityStyle">
         @foreach (var item in Items)
         {
@@ -23,7 +22,7 @@
 
     bool _sectionIsExpanded;
     
-    string ToggleButtonText => _sectionIsExpanded ? "Hide Items" : "Show Items";
+    string ToggleButtonText => _sectionIsExpanded ? "-" : "+";
 
     string VisibilityStyle => _sectionIsExpanded ? "display: grid" : "display: none";
 
