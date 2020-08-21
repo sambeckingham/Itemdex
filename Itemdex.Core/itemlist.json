@@ -25453,5 +25453,13 @@
     "Id": 5042,
     "TextId": "CoffeeCup",
     "ResearchRequired": 10
-  }
-]
+  },
+  {
+    "Id": 5043,
+    "TextId": "TorchGodsFavor",
+    "ResearchRequired": 1
+  },
+  {
+    "Id": 5044,
+    "TextId": "MusicBoxCredits",
+    "ResearchRequired": 1
